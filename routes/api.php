@@ -23,7 +23,6 @@ Route::post('send-sms','EmailController@sendSMS');
 Route::post('short-url','EmailController@shortUrl');
 
 Route::get('test',function (){
-
     \Illuminate\Support\Facades\Mail::send('mails.email',['title'=>'Test' , 'content' => 'Test'],function ($message){
 
         $message->from('ali@a.com');

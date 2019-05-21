@@ -71,7 +71,8 @@ class EmailController extends Controller
                 foreach ($phones as $phone)
                 {
                     $job['url'] = $job['url']."&mobile=".$phone;
-                    dispatch(new SendSmsJob($data));
+//                    dd($job['url']);
+                    dispatch(new SendSmsJob($job));
                 }
                 return $job;
                 break;
