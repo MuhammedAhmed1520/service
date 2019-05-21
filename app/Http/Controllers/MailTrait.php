@@ -14,7 +14,7 @@ trait MailTrait{
     {
         return validator($request_data, [
             'url' => 'required',
-
+            'phones' => 'required|array',
         ]);
     }
     function return_msg(bool $status = false, string $msg = null, array $data = []): ?array
@@ -24,6 +24,7 @@ trait MailTrait{
     function send_sms(array $data = [])
     {
         $client = new \GuzzleHttp\Client();
+
         $response = $client->post($data['url']);
     }
 }
