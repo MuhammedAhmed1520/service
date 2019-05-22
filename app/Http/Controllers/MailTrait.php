@@ -13,8 +13,13 @@ trait MailTrait{
      function validSMSRequest(array $request_data)
     {
         return validator($request_data, [
-            'url' => 'required',
-            'phones' => 'required|array',
+            'username' => 'required',
+            'password' => 'required',
+            'language' => 'required',
+            'sender' => 'required',
+            'message' => 'required',
+            'type' => 'required',
+            'mobiles' => 'required',
         ]);
     }
     function return_msg(bool $status = false, string $msg = null, array $data = []): ?array

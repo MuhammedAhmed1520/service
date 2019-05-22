@@ -33,14 +33,15 @@ class EmailController extends Controller
                 'validation_errors' => $validation->getMessageBag()->getMessages()
             ]);
         }
-        $phones = $request->get('phones');
-        foreach ($phones as $phone)
-        {
-            $data = $request->all();
-            $data['url'] = $data['url']."&mobile=".$phone;
-            dispatch(new SendSmsJob($data));
-        }
 
+        $this->smsType($request->all());
+//        $phones = $request->get('phones');
+//        foreach ($phones as $phone)
+//        {
+//            $data = $request->all();
+//            $data['url'] = $data['url']."&mobile=".$phone;
+//            dispatch(new SendSmsJob($data));
+//        }
         return $this->return_msg(true,'SMS Sent');
     }
 
@@ -54,6 +55,28 @@ class EmailController extends Controller
         }
         $url = TinyUrl::create($request->get('url'));
         return $this->return_msg(true,"Success",compact('url'));
+    }
+
+    protected function smsType(array $data)
+    {
+        $job = null;
+        switch ($data['type'] ?? 0){
+            case 'smsmisr':
+                $phones = explode(',',$data['mobiles'] ?? '');
+                foreach ($phones as $key => $phone)
+                {
+                    $job['url'] = 'https://smsmisr.com/api/webapi/?'.'username='.$data['username']
+                        .'&password='.$data['password'].'&language='.$data['language']
+                        .'&sender='.$data['sender'].'&message='.$data['message'];
+                    $job['url'] = $job['url']."&mobile=".$phone;
+                    dispatch(new SendSmsJob($job));
+                }
+                return $job;
+                break;
+            default:
+                break;
+        }
+        return $job;
     }
 
 }
