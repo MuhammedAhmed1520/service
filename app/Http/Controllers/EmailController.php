@@ -54,8 +54,6 @@ class EmailController extends Controller
         }
         $url = TinyUrl::create($request->get('url'));
         return $this->return_msg(true,"Success",compact('url'));
-
-
     }
 
 }
